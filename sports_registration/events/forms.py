@@ -27,15 +27,10 @@ class CustomUserCreationForm(UserCreationForm):
         fields = ['username', 'first_name', 'last_name', 'email', 'password1', 'password2']
 
 class ProfileUpdateForm(forms.ModelForm):
-    age = forms.IntegerField(
-        required=False, label="Wiek",
-        widget=forms.NumberInput(attrs={'class': 'form-control'})
-    )
-    city = forms.CharField(
-        max_length=100, required=False, label="Miejscowość",
-        widget=forms.TextInput(attrs={'class': 'form-control'})
-    )
-
     class Meta:
         model = Profile
         fields = ['age', 'city']
+        widgets = {
+            'age': forms.NumberInput(attrs={'class': 'form-control'}),
+            'city': forms.TextInput(attrs={'class': 'form-control'}),
+        }
