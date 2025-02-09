@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import CustomUserCreationForm, ProfileUpdateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
+from .models import Profile
 def home(request):
     return render(request, 'events/home.html')
 
@@ -23,6 +24,8 @@ def register(request):
 
 @login_required
 def profile(request):
+    profile, created = Profile.objects.get_or_create(user=request.user)
+
     if request.method == 'POST':
         form = ProfileUpdateForm(request.POST, instance=request.user)
         if form.is_valid():
