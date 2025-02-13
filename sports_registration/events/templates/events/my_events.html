@@ -65,7 +65,13 @@
                             <h5>{{ registration.event.title }}</h5>
                             <p class="mb-1">{{ registration.event.date }} | {{ registration.event.location }}</p>
                         </div>
-                        <a href="{% url 'event_detail' registration.event.id %}" class="btn btn-info">Szczegóły</a>
+                        <div>
+                            <a href="{% url 'event_detail' registration.event.id %}" class="btn btn-info">Szczegóły</a>
+                            <form method="post" action="{% url 'event_unregister' registration.event.id %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">Wypisz się</button>
+                            </form>
+                        </div>
                     </li>
                 {% endfor %}
             </ul>
