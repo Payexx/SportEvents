@@ -21,7 +21,6 @@ class Event(models.Model):
         return self.title
 
     def available_spots(self):
-        """Zwraca liczbę wolnych miejsc"""
         return self.max_participants - self.registrations.count()
 
 class EventRegistration(models.Model):
