@@ -66,3 +66,19 @@ def event_register(request, event_id):
 def my_events(request):
     registrations = EventRegistration.objects.filter(user=request.user)
     return render(request, 'events/my_events.html', {'registrations': registrations})
+
+
+@login_required
+def event_unregister(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+
+    # Sprawdź, czy użytkownik jest zapisany
+    registration = EventRegistration.objects.filter(user=request.user, event=event).first()
+
+    if registration:
+        registration.delete()
+        messages.success(request, "Wypisano się z wydarzenia!")
+    else:
+        messages.warning(request, "Nie jesteś zapisany na to wydarzenie.")
+
+    return redirect('my_events')
