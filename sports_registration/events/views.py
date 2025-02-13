@@ -3,6 +3,8 @@ from .forms import CustomUserCreationForm, ProfileUpdateForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from .models import Profile, Event, EventRegistration
+from django.contrib.admin.views.decorators import staff_member_required
+from .forms import EventForm
 def home(request):
     return render(request, 'events/home.html')
 
@@ -82,3 +84,38 @@ def event_unregister(request, event_id):
         messages.warning(request, "Nie jesteś zapisany na to wydarzenie.")
 
     return redirect('my_events')
+
+@staff_member_required
+def create_event(request):
+    if request.method == 'POST':
+        form = EventForm(request.POST)
+        if form.is_valid():
+            event = form.save(commit=False)
+            event.save()  # Zapisujemy wydarzenie do bazy danych
+            messages.success(request, "Wydarzenie zostało utworzone!")
+            return redirect('event_list')  # Przekierowanie do listy wydarzeń
+    else:
+        form = EventForm()
+
+    return render(request, 'events/create_event.html', {'form': form})
+
+@staff_member_required
+def edit_event(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+
+    if request.method == 'POST':
+        form = EventForm(request.POST, instance=event)
+        if form.is_valid():
+            form.save()
+            return redirect('event_list')
+    else:
+        form = EventForm(instance=event)
+
+    return render(request, 'events/edit_event.html', {'form': form, 'event': event})
+
+@staff_member_required
+def delete_event(request, event_id):
+    event = get_object_or_404(Event, id=event_id)
+    event.delete()
+    messages.success(request, "Wydarzenie zostało usunięte.")
+    return redirect('event_list')
