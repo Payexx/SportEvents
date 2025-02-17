@@ -40,8 +40,13 @@ def profile(request):
     return render(request, 'events/profile.html', {'form': form})
 
 def event_list(request):
-    events = Event.objects.all()
-    return render(request, 'events/event_list.html', {'events': events})
+    category = request.GET.get('category')
+    if category:
+        events = Event.objects.filter(category=category)
+    else:
+        events = Event.objects.all()
+
+    return render(request, 'events/event_list.html', {'events': events, 'selected_category': category})
 
 def event_detail(request, event_id):
     event = get_object_or_404(Event, id=event_id)
@@ -119,3 +124,6 @@ def delete_event(request, event_id):
     event.delete()
     messages.success(request, "Wydarzenie zostało usunięte.")
     return redirect('event_list')
+
+def news(request):
+    return render(request, 'events/news.html')

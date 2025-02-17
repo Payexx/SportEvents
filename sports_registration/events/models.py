@@ -10,15 +10,21 @@ class Profile(models.Model):
         return f"Profil {self.user.username}"
 
 class Event(models.Model):
+    CATEGORY_CHOICES = [
+        ('bieg', 'Bieg'),
+        ('rower', 'Rower'),
+        ('nordic_walking', 'Nordic Walking'),
+    ]
     title = models.CharField(max_length=200)
     description = models.TextField()
     date = models.DateField()
     time = models.TimeField()
     location = models.CharField(max_length=255)
     max_participants = models.IntegerField()
+    category = models.CharField(max_length=20, choices=CATEGORY_CHOICES, default='bieg')
 
     def __str__(self):
-        return self.title
+        return f"{self.title} - {self.get_category_display()}"
 
     def available_spots(self):
         return self.max_participants - self.registrations.count()

@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edytowanie Wydarzenia</title>
+    <title>Aktualności</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-     <style>
+    <style>
         .navbar-nav .nav-link {
             font-size: 2rem;
         }
     </style>
 </head>
 <body>
-   <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
     <div class="container">
         <a class="navbar-brand fs-2" href="/">SportEvents</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -21,7 +21,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ms-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="{% url 'news' %}">Aktualności</a>
+                    <a class="nav-link active" href="{% url 'news' %}">Aktualności</a>
                 </li>
                 <li class="nav-item">
                     <a class="nav-link" href="{% url 'event_list' %}">Wydarzenia Sportowe</a>
@@ -54,43 +54,23 @@
         </div>
     </div>
 </nav>
-
     <div class="container mt-5">
-        <h2 class="text-center">Edytowanie Wydarzenia</h2>
+        <h2 class="text-center mb-4">Aktualności</h2>
         <div class="row">
             <div class="col-md-8 mx-auto">
-                <form method="post">
-                    {% csrf_token %}
-                    <div class="mb-3">
-                        <label class="form-label">Nazwa Wydarzenia</label>
-                        {{ form.title }}
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Nowe wydarzenia w systemie!</h5>
+                        <p class="card-text">Dodaliśmy nowe wydarzenia sportowe – sprawdź, co nowego możesz wybrać!</p>
+                        <a href="{% url 'event_list' %}" class="btn btn-primary">Zobacz wydarzenia</a>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Opis</label>
-                        {{ form.description }}
+                </div>
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <h5 class="card-title">Zaktualizowaliśmy system!</h5>
+                        <p class="card-text">Nowa funkcja filtrowania wydarzeń jest teraz dostępna. Wybierz swoją kategorię!</p>
                     </div>
-                    <div class="mb-3">
-                        <label class="form-label">Data</label>
-                        {{ form.date }}
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Godzina</label>
-                        {{ form.time }}
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Lokalizacja</label>
-                        {{ form.location }}
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Maksymalna liczba uczestników</label>
-                        {{ form.max_participants }}
-                    </div>
-                    <div class="mb-3">
-                        <label class="form-label">Kategoria</label>
-                        {{ form.category }}
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Zapisz zmiany</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
